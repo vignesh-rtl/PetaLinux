@@ -18,7 +18,8 @@ petalinux-package wic
 
 source components/yocto/layers/core/oe-init-build-env components/yocto   ----- to source bitbake
 
-**INFO**-to configure node in system-user.dtsi, first create project, define .xsa , add or change whatever want in system-user.dtsi in <<plnx-proj-root>/project-spec/meta-user/recipes-bsp/device-tree/files/system-user.dtsi> , then build-device tree then , build project, also dont do wic , flash mannually
+***INFO***-to configure node in system-user.dtsi, first create project, define .xsa , add or change whatever want in system-user.dtsi in 
+<<plnx-proj-root>/project-spec/meta-user/recipes-bsp/device-tree/files/system-user.dtsi> , then build-device tree then , build project, also dont do wic , flash mannually
 
 petalinux-build -c device-tree -x cleansstate
 petalinux-build -c device-tree
