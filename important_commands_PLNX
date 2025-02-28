@@ -104,7 +104,7 @@ hsi generate_target -dir my_dts
 hsi close_hw_design [hsi current_hw_design]
 exit
 
----------------------------configuring on errors--------------------------------------
+---------------------------configuring on errors--------------------------------
 
 ERROR: Nothing RPROVIDES 'libvCU-OMXIL' ----> <proj-root>/project-spec/meta-user/conf/petalinuxbsp.conf
 
