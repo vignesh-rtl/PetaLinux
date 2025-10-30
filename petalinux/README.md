@@ -79,8 +79,3 @@ PetaLinux is commonly used to:
 - hardware/  — XSA/HDF or other hardware platform files (if present)
 - docs/      — additional documentation and guides
 
-If you want me to add a sample petalinux project template, scripts to automate builds, or a CI workflow, tell me which board or target platform you are using and I will add them.
-
-## License
-
-This README and any helper scripts in this directory will follow the repository license. If you want a specific license file added (for example MIT, Apache-2.0), I can add that too.
