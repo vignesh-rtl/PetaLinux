@@ -71,11 +71,5 @@ PetaLinux is commonly used to:
 - petalinux-build (build everything)
 - petalinux-package (create BOOT.BIN / image.ub)
 
-## petalinux/ directory structure (this repo)
 
-- README.md  — this file
-- projects/  — example or user projects (if present)
-- scripts/   — helper scripts for automating builds or deployments
-- hardware/  — XSA/HDF or other hardware platform files (if present)
-- docs/      — additional documentation and guides
 
