@@ -6,7 +6,7 @@
 
 ------------------------------project flow commands-----------------------------------
 
-source /home/dt898/petalinux_2024.2/settings.sh 
+source <plnx_dir>/petalinux_2024.2/settings.sh 
 petalinux-create project --template zynqMP --name test_3
 petalinux-config --get-hw-description <<path to xsa directory>>
 petalinux-config -c kernel
