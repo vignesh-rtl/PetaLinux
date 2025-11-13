@@ -3,10 +3,14 @@
  https://people.canonical.com/~platform/images/xilinx/kria-ubuntu-22.04/iot-limerick-kria-classic-desktop-2204-20240304-165.img.xz
 
 2.Use win32 imager to flash the sd card
-3.power on the kv260 with sd card in , ethernet and serial monitor for initial setup- 
+
+3.power on the kv260 with sd card in , ethernet and serial monitor for initial setup--
+
 	ubuntu -- id 
 	ubuntu -- pass
+
 4.Give the commands to update the libs
+
 	ping 8.8.8.8   ------- check whether ethernet connected
 	sudo add-apt-repository ppa:xilinx-apps --yes &&
 	sudo add-apt-repository ppa:ubuntu-xilinx/sdk --yes &&
@@ -42,7 +46,7 @@ FPGA firmware for Xilinx boards - kv260 nlp-smartvision application
 xlnx-firmware-kv260-smartcam/jammy 0.1-0xlnx1 arm64 [installed]
 FPGA firmware for Xilinx boards - kv260 smartcam application
 
-here u can see the smartcam application. install that-----------
+---------here u can see the smartcam application. install that-----------
 
 sudo apt install xlnx-firmware-kv260-smartcam
 
@@ -69,9 +73,9 @@ sudo apt install xlnx-firmware-kv260-smartcam
 
 10.Load the smartcam app
 
-	sudo xmutil      listapps          -------- list the available apps
-	sudo xmutil      unloadapp	   -------- unload the app to remove the PL and hardware from the soc
-	sudo xmutil      loadapp kv260-smartcam  ---- loadapp loads the application specific PL design in the soc
+	sudo xmutil      listapps                    -------- list the available apps
+	sudo xmutil      unloadapp	                 -------- unload the app to remove the PL and hardware from the soc
+	sudo xmutil      loadapp kv260-smartcam      -------- loadapp loads the application specific PL design in the soc
 
 11. run the docker , to start the application
 
@@ -111,7 +115,7 @@ sudo apt install xlnx-firmware-kv260-smartcam
 
 file link --- https://github.com/Xilinx/kria-apps-docs/tree/gh-pages/creating_applications/2022.1/source/docs/example_src/raspi_example/smartcam-raspi_firmware_works
 
-AMD community post -- https://adaptivesupport.amd.com/s/question/0D54U000090gWKVSA2/how-to-add-the-rpi-v2-camera-with-the-kv260-for-mipi-camera-streaming-over-smartcam-application-on-kv260-ubuntu-how-to-add-the-overlay-and-other-required-files-in-the-kv260-what-are-the-commands-for-that-in-kv260-ubuntu-terminal-?language=en_US
+AMD community post --- https://adaptivesupport.amd.com/s/question/0D54U000090gWKVSA2/how-to-add-the-rpi-v2-camera-with-the-kv260-for-mipi-camera-streaming-over-smartcam-application-on-kv260-ubuntu-how-to-add-the-overlay-and-other-required-files-in-the-kv260-what-are-the-commands-for-that-in-kv260-ubuntu-terminal-?language=en_US
 
 eg:
 IN PC command prompt:
@@ -133,9 +137,12 @@ sudo mv /home/ubuntu/smartcam-raspi.xclbin /lib/firmware/xilinx/smartcam-raspi/
 	sudo xmutil listapps
 	sudo xmutil loadapp mipi-rpi (_your directory name to the rpi app_)
 	
-	gst-launch-1.0 mediasrcbin media-device=/dev/media0 v4l2src0::io-mode=mmap ! "video/x-raw, width=1920, height=1080, format=NV12, framerate=30/1" ! kmssink plane-id=39 fullscreen-overlay=true -v   (_inside docker container_)    
+	gst-launch-1.0 mediasrcbin media-device=/dev/media0 v4l2src0::io-mode=mmap ! "video/x-raw, width=1920, height=1080, format=NV12, framerate=30/1" ! kmssink plane-id=39 fullscreen-overlay=true -v   
+
+(_inside docker container_)    
 
   ----- for the gstreamer to display
 
 
 to exit docker -- ctrl  + d
+
