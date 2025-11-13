@@ -1,75 +1,164 @@
-# PetaLinux
+# PetaLinux Projects
 
-This directory contains documentation and helper files related to PetaLinux projects used with Xilinx FPGA/SoC designs. The README explains what PetaLinux is, lists prerequisites, and provides quick start instructions and common commands for building and packaging embedded Linux images using the Xilinx PetaLinux tools.
+This directory contains my work related to **PetaLinux-based embedded Linux development** for AMD/Xilinx SoC platforms such as **KV260 Kria Starter Kit** and **ZCU106 MPSoC**.  
+It includes project notes, setup procedures, boot instructions, and board-specific workflows used while creating custom Linux images, device trees, and embedded applications.
 
-## About PetaLinux
+---
 
-PetaLinux is Xilinx's embedded Linux development flow and set of tools used to build, configure, and package Linux images for Xilinx Zynq and Zynq UltraScale+ (MPSoC) devices. It integrates device-tree generation, kernel configuration, root filesystem generation, bootloader packaging, and image packaging so you can create images that boot on target hardware.
+## 1. 📌 What is PetaLinux?
 
-PetaLinux is commonly used to:
-- Bring up Linux on custom FPGA/SoC designs
-- Customize the kernel, device tree, and root filesystem
-- Package boot artifacts (BOOT.BIN, image.ub, rootfs) for SD/QSPI/eMMC boot
-- Automate builds in CI for hardware-specific images
+**PetaLinux** is AMD/Xilinx’s embedded Linux development framework for Zynq & Zynq UltraScale+ devices.  
+It provides tools to build:
 
-> Note: PetaLinux is distributed by Xilinx and requires installation on a Linux host. Always use the PetaLinux release that matches your Vivado/SDK/HLS toolchain and target hardware.
+- Custom Linux images  
+- Kernel, RootFS, and Device Tree  
+- Boot files (FSBL, U-Boot, Image, DTB, WIC)  
+- Linux–FPGA integrated workflows using XSA files  
 
-## Prerequisites
+PetaLinux simplifies Linux bring-up on programmable SoCs.
 
-- Supported Linux host (Ubuntu 18.04, 20.04, or the versions recommended by your PetaLinux release)
-- Xilinx PetaLinux tools installed and licensed
-- Vivado (or the exported XSA/HDF) for hardware/platform generation when building device trees or FPGA bitstreams
-- Sufficient disk space (tens of GBs) and memory (8+ GB recommended; 16+ GB preferred for complex builds)
+---
 
-## Quick start
+## 📚 Official Reference
 
-1. Install PetaLinux following Xilinx documentation and source the environment:
+For complete documentation, refer to the official AMD guide:  
+🔗 **https://docs.amd.com/r/2023.1-English/ug1144-petalinux-tools-reference-guide/Overview**
 
-   ```bash
-   source /opt/petalinux/settings.sh
-   ```
+---
 
-2. Clone this repository and change into the project directory:
+# 2. ⚙️ PetaLinux Minimal Workflow (Step-by-Step)
 
-   ```bash
-   git clone https://github.com/vignesh-rtl/PetaLinux.git
-   cd PetaLinux/petalinux
-   ```
+This section summarizes the essential commands needed for creating, configuring, building, and deploying a PetaLinux project.
 
-3. If a PetaLinux project isn't already present, create one (example using zynqMP template):
+---
 
-   ```bash
-   petalinux-create -t project --template zynqMP --name my_project
-   cd my_project
-   ```
+## PetaLinux Minimal Workflow
 
-4. Import or copy the hardware description (XSA/HDF) into the project or configure the platform BSP as needed.
+### Load PetaLinux Environment
 
-5. Configure and build:
+```
+source <plnx_dir>/petalinux_202x.x/settings.sh
+```
 
-   ```bash
-   petalinux-config
-   petalinux-config -c kernel
-   petalinux-config -c rootfs
-   petalinux-build
-   ```
+*Enables PetaLinux tools and environment.*
 
-6. Package boot artifacts for deployment:
+---
 
-   ```bash
-   petalinux-package --boot --fsbl <fsbl.elf> --fpga <system.bit> --u-boot
-   ```
+## CREATE PROJECT
 
-7. The generated images are typically under `images/linux/` in your project directory.
+### Create New PetaLinux Project
 
-## Common commands
+```
+petalinux-create project --template zynqMP --name <project_name>
+```
 
-- petalinux-create -t project --template <type> --name <name>
-- petalinux-config (top-level configuration)
-- petalinux-config -c kernel (kernel configuration)
-- petalinux-config -c rootfs (rootfs configuration)
-- petalinux-build (build everything)
-- petalinux-package (create BOOT.BIN / image.ub)
+### Import Hardware
 
+```
+petalinux-config --get-hw-description <path_to_xsa>
+```
 
+---
 
+## CONFIGURE
+
+### Kernel, RootFS & Device Tree Configuration
+
+```
+petalinux-config -c kernel
+petalinux-config -c rootfs
+petalinux-config -c device-tree
+```
+
+---
+
+## BUILD
+
+### Build Complete Project
+
+```
+petalinux-build
+```
+
+---
+
+## PACKAGE
+
+### Generate BOOT.BIN
+
+```
+petalinux-package boot --u-boot
+```
+
+### Generate Basic WIC Image
+
+```
+petalinux-package wic
+```
+
+### Board-Specific WIC Image (KV260)
+
+```
+petalinux-package --wic --images-dir images/linux/ --bootfiles "ramdisk.cpio.gz.u-boot,boot.scr,Image,system.dtb,system-zynqmp-sck-kv-g-revB.dtb"
+```
+
+---
+
+## CLEANUP
+
+### Clean Device Tree
+
+```
+petalinux-build -c device-tree -x cleansstate
+```
+
+### Full Cleanup
+
+```
+petalinux-build -x mrproper
+```
+
+---
+
+## YOCTO / BITBAKE
+
+### Source BitBake Environment
+
+```
+source components/yocto/layers/core/oe-init-build-env components/yocto
+```
+
+---
+
+## FLASH SD CARD MANUALLY
+
+### Step 1: Create Partitions
+
+```
+sudo fdisk /dev/sdb
+Command (m for help): n
+Select (default p): p
+<enter>
+[Y]es/[N]o: y
+n, p → enter → w
+```
+
+### Step 2: Format Partitions
+
+```
+sudo mkfs.vfat /dev/sdb1
+sudo mkfs.ext4 /dev/sdb2
+```
+
+### Step 3: Populate RootFS
+
+```
+mount /dev/sdb2 /mnt
+cd /mnt
+tar -xzvf /PATH/TO/rootfs.tar.gz
+```
+---
+
+📫 **Contact:**  
+**Email:** [vignesh.d.off@gmail.com](mailto:vignesh.d.off@gmail.com)  
+**LinkedIn:** [linkedin.com/in/vignesh-vlsidev](https://www.linkedin.com/in/vignesh-vlsidev)
