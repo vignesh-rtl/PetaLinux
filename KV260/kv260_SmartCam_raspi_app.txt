@@ -7,11 +7,11 @@
 3.power on the kv260 with sd card in , ethernet and serial monitor for initial setup--
 
 	ubuntu -- id 
-	ubuntu -- pass
+	ubuntu -- password
 
 4.Give the commands to update the libs
 
-	ping 8.8.8.8   ------- check whether ethernet connected
+	ping 8.8.8.8                                          ------- check whether ethernet connected
 	sudo add-apt-repository ppa:xilinx-apps --yes &&
 	sudo add-apt-repository ppa:ubuntu-xilinx/sdk --yes &&
 	sudo add-apt-repository ppa:xilinx-apps/xilinx-drivers --yes &&
@@ -19,14 +19,14 @@
 	sudo apt update --yes &&
 	sudo apt upgrade --yes
 
-	sudo groupadd docker   ---- to add docker container
-	sudo usermod -a -G docker  $USER     ------ to add privilege to user
+	sudo groupadd docker                                  ------ to add docker container
+	sudo usermod -a -G docker  $USER                      ------ to add privilege to user
 	
 	sudo apt update
 	sudo apt install ubuntu-desktop-kria
 	sudo reboot
 
-5.next these commands for smartcam application
+5.The following commands for smartcam application
 
 ubuntu@kria:~$ sudo apt search xlnx-firmware-kv260
 Sorting... Done
@@ -43,12 +43,11 @@ FPGA firmware for Xilinx boards - kv260 defect-detect application
 xlnx-firmware-kv260-nlp-smartvision/jammy,now 0.1-0xlnx1 arm64 
 FPGA firmware for Xilinx boards - kv260 nlp-smartvision application
 
-xlnx-firmware-kv260-smartcam/jammy 0.1-0xlnx1 arm64 [installed]
+xlnx-firmware-kv260-smartcam/jammy 0.1-0xlnx1 arm64 [installed]         ----- here u can see the smartcam application
 FPGA firmware for Xilinx boards - kv260 smartcam application
 
----------here u can see the smartcam application. install that-----------
 
-sudo apt install xlnx-firmware-kv260-smartcam
+sudo apt install xlnx-firmware-kv260-smartcam                           ----- To install application
 
 6. Install docker to run the application
 
@@ -57,16 +56,16 @@ sudo apt install xlnx-firmware-kv260-smartcam
 	sudo systemctl enable docker
 	docker pull xilinx/smartcam:2022.1
 
-7.install v4l2 drivers
+7.Install v4l2 drivers
 
 	sudo apt-get install v4l-utils
 	sudo apt-get install libc6-dev libgdiplus libx11-dev
 
-8.install dnf, for python utils
+8.Install dnf, for python utils
 
 	sudo apt install dnf
 
-9.install xmutil utils which adds the python libs to handle the docker and application
+9.Install xmutil utils which adds the python libs to handle the docker and application
 
 	sudo xmutil      getpkgs
 	sudo dnf install packagegroup-kv260-smartcam.noarch
@@ -77,7 +76,7 @@ sudo apt install xlnx-firmware-kv260-smartcam
 	sudo xmutil      unloadapp	                 -------- unload the app to remove the PL and hardware from the soc
 	sudo xmutil      loadapp kv260-smartcam      -------- loadapp loads the application specific PL design in the soc
 
-11. run the docker , to start the application
+11. Run the docker , to start the application
 
 	docker run \
 	--env="DISPLAY" \
@@ -96,8 +95,8 @@ sudo apt install xlnx-firmware-kv260-smartcam
 	
 12.Inside docker ""root@xlnx-docker/#"" run the stream with usb
 
-	smartcam --mipi -W 1920 -H 1080 --target rtsp
-	smartcam --mipi -W 1920 -H 1080 --target dp …...etc
+	smartcam --mipi -W 1920 -H 1080 --target dp
+	smartcam --mipi -W 1920 -H 1080 --target rtsp …...etc
 
 
 13.Run the bootgen files 
@@ -133,7 +132,7 @@ sudo mv /home/ubuntu/smartcam-raspi.xclbin /lib/firmware/xilinx/smartcam-raspi/
 
 15.Then display the mipi through the dp
 
-	sudo xmutil      desktop_disable
+	sudo xmutil desktop_disable
 	sudo xmutil listapps
 	sudo xmutil loadapp mipi-rpi (_your directory name to the rpi app_)
 	
@@ -145,4 +144,5 @@ sudo mv /home/ubuntu/smartcam-raspi.xclbin /lib/firmware/xilinx/smartcam-raspi/
 
 
 to exit docker -- ctrl  + d
+
 
