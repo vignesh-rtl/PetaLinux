@@ -1,6 +1,8 @@
 1.Install 22.04 ubuntu image from here --
 
- https://people.canonical.com/~platform/images/xilinx/kria-ubuntu-22.04/iot-limerick-kria-classic-desktop-2204-20240304-165.img.xz
+https://people.canonical.com/~platform/images/xilinx/kria-ubuntu-22.04/iot-limerick-kria-classic-desktop-2204-20240304-165.img.xz
+
+Reference - https://xilinx.github.io/kria-apps-docs/kv260/2022.1/build/html/docs/smartcamera/docs/app_deployment.html
 
 2.Use win32 imager to flash the sd card
 
@@ -144,5 +146,6 @@ sudo mv /home/ubuntu/smartcam-raspi.xclbin /lib/firmware/xilinx/smartcam-raspi/
 
 
 to exit docker -- ctrl  + d
+
 
 
