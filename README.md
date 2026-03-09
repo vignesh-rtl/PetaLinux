@@ -5,6 +5,7 @@ It includes project notes, setup procedures, boot instructions, and board-specif
 
 ---
 
+
 ## 1. 📌 What is PetaLinux?
 
 **PetaLinux** is AMD/Xilinx’s embedded Linux development framework for Zynq & Zynq UltraScale+ devices.  
